@@ -21,43 +21,51 @@ def crear_dashboard():
     total_ordenes = len(df)
     
     kpis_html = f"""
-    <div style="display: flex; justify-content: space-around; padding: 20px; background-color: #f8f9fa; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-        <div style="text-align: center;">
-            <h3 style="color: #6c757d; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Ventas Totales</h3>
-            <h2 style="color: #2b2d42; font-size: 28px; margin: 10px 0;">${total_ventas:,.2f}</h2>
+    <div class="kpi-container">
+        <div class="kpi-card">
+            <h3 class="kpi-title">Ventas Totales</h3>
+            <h2 class="kpi-value value-sales">${total_ventas:,.2f}</h2>
         </div>
-        <div style="text-align: center;">
-            <h3 style="color: #6c757d; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Beneficio Total</h3>
-            <h2 style="color: #27ae60; font-size: 28px; margin: 10px 0;">${total_beneficio:,.2f}</h2>
+        <div class="kpi-card">
+            <h3 class="kpi-title">Beneficio Total</h3>
+            <h2 class="kpi-value value-profit">${total_beneficio:,.2f}</h2>
         </div>
-        <div style="text-align: center;">
-            <h3 style="color: #6c757d; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Margen Promedio</h3>
-            <h2 style="color: #2980b9; font-size: 28px; margin: 10px 0;">{margen_promedio:.2f}%</h2>
+        <div class="kpi-card">
+            <h3 class="kpi-title">Margen Promedio</h3>
+            <h2 class="kpi-value value-margin">{margen_promedio:.2f}%</h2>
         </div>
-        <div style="text-align: center;">
-            <h3 style="color: #6c757d; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">Total Órdenes</h3>
-            <h2 style="color: #8e44ad; font-size: 28px; margin: 10px 0;">{total_ordenes:,}</h2>
+        <div class="kpi-card">
+            <h3 class="kpi-title">Total Órdenes</h3>
+            <h2 class="kpi-value value-orders">{total_ordenes:,}</h2>
         </div>
     </div>
     """
 
-    # Gráficos
+    # Gráficos con diseño limpio
+    layout_config = dict(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin=dict(l=20, r=20, t=40, b=20),
+        font=dict(family="Inter, sans-serif", color="#333")
+    )
+
     ventas_mensuales = df.groupby('Mes')['Venta_Total'].sum().reset_index()
-    fig1 = px.line(ventas_mensuales, x='Mes', y='Venta_Total', title='Tendencia de Ventas Mensuales', markers=True, color_discrete_sequence=['#2980b9'])
-    fig1.update_layout(plot_bgcolor='white', paper_bgcolor='white')
+    fig1 = px.area(ventas_mensuales, x='Mes', y='Venta_Total', title='Tendencia de Ventas Mensuales', markers=True, color_discrete_sequence=['#3b82f6'])
+    fig1.update_layout(**layout_config)
 
     ventas_categoria = df.groupby('Categoria')['Venta_Total'].sum().reset_index().sort_values('Venta_Total', ascending=False)
     fig2 = px.bar(ventas_categoria, x='Categoria', y='Venta_Total', title='Ventas por Categoría', color='Categoria', color_discrete_sequence=px.colors.qualitative.Pastel)
-    fig2.update_layout(plot_bgcolor='white', paper_bgcolor='white')
+    fig2.update_layout(**layout_config)
 
     beneficio_region = df.groupby('Region')['Beneficio'].sum().reset_index()
-    fig3 = px.pie(beneficio_region, names='Region', values='Beneficio', title='Beneficios por Región', hole=0.4, color_discrete_sequence=px.colors.qualitative.Set3)
+    fig3 = px.pie(beneficio_region, names='Region', values='Beneficio', title='Beneficios por Región', hole=0.5, color_discrete_sequence=px.colors.qualitative.Set2)
+    fig3.update_layout(**layout_config)
 
     top_productos = df.groupby('Producto')['Venta_Total'].sum().reset_index().sort_values('Venta_Total', ascending=False).head(10)
-    fig4 = px.bar(top_productos, x='Venta_Total', y='Producto', orientation='h', title='Top 10 Productos por Ventas', color='Venta_Total', color_continuous_scale='Viridis')
-    fig4.update_layout(yaxis={'categoryorder':'total ascending'}, plot_bgcolor='white', paper_bgcolor='white')
+    fig4 = px.bar(top_productos, x='Venta_Total', y='Producto', orientation='h', title='Top 10 Productos', color='Venta_Total', color_continuous_scale='Blues')
+    fig4.update_layout(yaxis={'categoryorder':'total ascending'}, **layout_config)
 
-    # HTML content
+    # HTML content con diseño visualmente responsivo y premium
     html_content = f"""
     <!DOCTYPE html>
     <html lang="es">
@@ -66,20 +74,131 @@ def crear_dashboard():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard de KPIs - Análisis de Ventas</title>
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-            body {{ font-family: 'Inter', sans-serif; margin: 0; padding: 40px 20px; background-color: #f4f6f9; color: #333; }}
-            .container {{ max-width: 1200px; margin: auto; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }}
-            h1 {{ color: #2b2d42; text-align: center; font-weight: 800; margin-bottom: 40px; }}
-            .charts-grid {{ display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }}
-            .chart-card {{ border: 1px solid #eee; border-radius: 12px; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }}
-            .header-signature {{ text-align: center; color: #888; font-style: italic; margin-bottom: 30px; font-weight: 600; }}
-            .footer {{ text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #eee; color: #7f8c8d; font-size: 14px; }}
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+            
+            :root {{
+                --bg-color: #f3f4f6;
+                --card-bg: #ffffff;
+                --text-main: #1f2937;
+                --text-muted: #6b7280;
+                --accent-blue: #3b82f6;
+                --accent-green: #10b981;
+                --accent-purple: #8b5cf6;
+            }}
+
+            * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+            
+            body {{
+                font-family: 'Inter', sans-serif;
+                background-color: var(--bg-color);
+                color: var(--text-main);
+                padding: 2rem 1rem;
+                line-height: 1.5;
+            }}
+
+            .container {{
+                max-width: 1400px;
+                margin: 0 auto;
+            }}
+
+            .header {{
+                text-align: center;
+                margin-bottom: 3rem;
+            }}
+
+            .header h1 {{
+                font-weight: 700;
+                font-size: 2.5rem;
+                color: var(--text-main);
+                letter-spacing: -0.02em;
+            }}
+
+            .header-signature {{
+                font-weight: 600;
+                color: var(--accent-blue);
+                margin-top: 0.5rem;
+                font-size: 1.1rem;
+            }}
+
+            .kpi-container {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }}
+
+            .kpi-card {{
+                background: var(--card-bg);
+                padding: 1.5rem;
+                border-radius: 16px;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+                transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }}
+
+            .kpi-card:hover {{
+                transform: translateY(-5px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }}
+
+            .kpi-title {{
+                color: var(--text-muted);
+                font-size: 0.875rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }}
+
+            .kpi-value {{
+                font-size: 2.25rem;
+                font-weight: 700;
+            }}
+
+            .value-sales {{ color: var(--text-main); }}
+            .value-profit {{ color: var(--accent-green); }}
+            .value-margin {{ color: var(--accent-blue); }}
+            .value-orders {{ color: var(--accent-purple); }}
+
+            .charts-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+                gap: 1.5rem;
+            }}
+
+            @media (max-width: 768px) {{
+                .charts-grid {{
+                    grid-template-columns: 1fr;
+                }}
+            }}
+
+            .chart-card {{
+                background: var(--card-bg);
+                border-radius: 16px;
+                padding: 1.5rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+                overflow: hidden;
+            }}
+
+            .footer {{
+                text-align: center;
+                margin-top: 4rem;
+                padding-top: 2rem;
+                border-top: 1px solid #e5e7eb;
+                color: var(--text-muted);
+                font-size: 0.875rem;
+            }}
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>📊 Dashboard de Rendimiento Comercial</h1>
-            <div class="header-signature">Data & Insights por Emilio Morillo</div>
+            <div class="header">
+                <h1>📊 Dashboard Analytics</h1>
+                <div class="header-signature">Data & Insights por Emilio Morillo</div>
+            </div>
             
             {kpis_html}
             
