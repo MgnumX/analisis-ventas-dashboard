@@ -1,15 +1,15 @@
-# 📊 Sales Analytics Dashboard
+# Retail KPI Dashboard
 
-> **Data & Insights by Emilio Morillo**
+> Data & Insights by Emilio Morillo
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Click_Here-blue?style=for-the-badge)](https://MgnumX.github.io/analisis-ventas-dashboard/)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Online-blue?style=for-the-badge)](https://MgnumX.github.io/retail-kpi-dashboard/)
 [![Python](https://img.shields.io/badge/Python-3.8+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Plotly](https://img.shields.io/badge/Plotly-Interactive-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)](https://plotly.com)
 
 ![Dashboard Preview](preview.png)
 
 <details>
-<summary>🔍 First chart — close-up</summary>
+<summary>First chart — close-up</summary>
 
 ![Chart Preview](preview_chart1.png)
 
@@ -19,130 +19,106 @@
 
 ## 🇺🇸 English
 
-I built this project to show a complete data workflow — from raw synthetic data generation all the way to an interactive, browser-ready KPI dashboard. No proprietary tools, no cloud lock-in. Just Python, Pandas, and Plotly doing what they do best.
+Python pipeline that generates a synthetic retail dataset and renders an interactive HTML dashboard with KPIs and charts. No server needed — open `dashboard.html` directly in any browser.
 
-### 💡 Key Insights
+### Key Insights
 
-This dashboard is designed to answer real business questions, for example:
+Three questions this dashboard answers out of the box:
 
-1. **Which product categories drive the most revenue?**
-   — The bar chart breaks down total sales by category, making it immediately clear where to focus sales strategy.
+1. **Which product categories drive the most revenue?** The bar chart ranks total sales per category, so you can immediately spot where to push harder.
 
-2. **How do monthly sales trends behave across the year?**
-   — The area chart surfaces seasonality patterns and growth periods that would be invisible in a raw spreadsheet.
+2. **Where are profits actually coming from?** The donut chart splits net profit by region. Useful for catching underperforming territories before they become a problem.
 
-3. **Which regions generate the highest profit margins — and which are underperforming?**
-   — The donut chart splits net profit by region, helping prioritize territory investments or identify distribution inefficiencies.
+3. **Is the business growing or just busy?** The monthly area chart shows whether revenue peaks are seasonal trends or real growth.
 
-### ✨ Features
+### Features
 
-- **Synthetic Dataset (`generar_datos.py`)** — Generates `ventas.csv` with 5,000 realistic transaction records: dates, categories, products, regions, pricing, discounts, and margins.
-- **KPI Processing (`generar_dashboard.py`)** — Computes Total Sales, Net Profit, Average Margin, and Order Count from raw data.
-- **Interactive Dashboard** — A self-contained `dashboard.html` powered by Plotly. No server required — open it locally or host it anywhere.
-- **Headless Screenshots (`capture_preview.py`)** — Uses Playwright + Chromium to capture `preview.png` (full page) and `preview_chart1.png` (first chart crop) without opening a browser window.
+- Generates 5,000 synthetic sales records with realistic pricing, discounts, and margins
+- Computes Total Sales, Net Profit, Average Margin, and Order Count
+- Exports a self-contained `dashboard.html` — no backend, no dependencies at runtime
+- `capture_preview.py` takes full-page and cropped screenshots headlessly via Playwright
 
-### 🚀 Setup
-
-Python 3.8+ required.
+### Setup
 
 ```bash
 pip install pandas numpy plotly playwright
 playwright install chromium
 ```
 
-### 🛠️ How to Run
+### Run
 
 ```bash
-# Step 1 — Generate the dataset
-python generar_datos.py
+python generar_datos.py       # generates ventas.csv
+python generar_dashboard.py   # generates dashboard.html
+# open dashboard.html in your browser
 
-# Step 2 — Build the dashboard
-python generar_dashboard.py
-
-# Step 3 — Open dashboard.html in your browser
-
-# Step 4 (optional) — Capture screenshots silently
-python capture_preview.py
+python capture_preview.py     # optional: saves preview.png + preview_chart1.png
 ```
 
-### 📂 Project Structure
+### Structure
 
-```text
+```
 .
-├── generar_datos.py       # Synthetic data generator
-├── generar_dashboard.py   # Data processing + Plotly dashboard builder
-├── capture_preview.py     # Headless screenshot capture via Playwright
-├── ventas.csv             # Generated dataset
-├── dashboard.html         # Final interactive dashboard
-├── preview.png            # Full-page screenshot
-├── preview_chart1.png     # First chart crop
-└── README.md              # This file
+├── generar_datos.py       # synthetic data generator
+├── generar_dashboard.py   # data processing + chart builder
+├── capture_preview.py     # headless screenshots (Playwright)
+├── ventas.csv             # generated dataset
+├── dashboard.html         # interactive output
+├── preview.png            # full-page screenshot
+├── preview_chart1.png     # first chart crop
+└── README.md
 ```
 
 ---
 
 ## 🇪🇸 Español
 
-Construí este proyecto para mostrar un flujo de trabajo de datos completo — desde la generación de datos sintéticos hasta un dashboard interactivo de KPIs listo para el navegador. Sin herramientas propietarias ni dependencias de nube. Solo Python, Pandas y Plotly haciendo lo que mejor saben hacer.
+Pipeline en Python que genera un dataset sintético de retail y produce un dashboard HTML interactivo con KPIs y gráficos. No necesita servidor, basta con abrir `dashboard.html` en el navegador.
 
-### 💡 Insights Clave
+### Insights Clave
 
-Este dashboard está diseñado para responder preguntas reales de negocio, por ejemplo:
+Tres preguntas que este dashboard responde de inmediato:
 
-1. **¿Qué categorías de producto generan más ingresos?**
-   — El gráfico de barras desglosa las ventas totales por categoría, dejando claro de inmediato dónde enfocar la estrategia comercial.
+1. **¿Qué categorías generan más ingresos?** El gráfico de barras muestra las ventas por categoría para saber dónde concentrar esfuerzos.
 
-2. **¿Cómo se comporta la tendencia de ventas mes a mes a lo largo del año?**
-   — El gráfico de área muestra patrones de estacionalidad y periodos de crecimiento que serían invisibles en una hoja de cálculo cruda.
+2. **¿De dónde viene realmente el beneficio?** La dona divide el beneficio neto por región. Sirve para detectar territorios poco rentables antes de que sean un problema.
 
-3. **¿Qué regiones generan los mayores márgenes de beneficio — y cuáles están por debajo?**
-   — El gráfico de dona divide el beneficio neto por región, ayudando a priorizar inversiones o detectar ineficiencias de distribución.
+3. **¿El negocio crece o solo está ocupado?** El gráfico de área mensual deja claro si los picos de ventas son estacionales o crecimiento real.
 
-### ✨ Características
+### Características
 
-- **Dataset Sintético (`generar_datos.py`)** — Genera `ventas.csv` con 5,000 registros de transacciones realistas: fechas, categorías, productos, regiones, precios, descuentos y márgenes.
-- **Procesamiento de KPIs (`generar_dashboard.py`)** — Calcula Ventas Totales, Beneficio Neto, Margen Promedio y Cantidad de Órdenes desde los datos en bruto.
-- **Dashboard Interactivo** — Un `dashboard.html` autocontenido impulsado por Plotly. No requiere servidor — ábrelo localmente o hospédalo en cualquier lugar.
-- **Screenshots Headless (`capture_preview.py`)** — Usa Playwright + Chromium para capturar `preview.png` (página completa) y `preview_chart1.png` (recorte del primer gráfico) sin abrir ventana de navegador.
+- Genera 5,000 registros sintéticos con precios, descuentos y márgenes realistas
+- Calcula Ventas Totales, Beneficio Neto, Margen Promedio y Cantidad de Órdenes
+- Exporta un `dashboard.html` autocontenido sin dependencias en tiempo de ejecución
+- `capture_preview.py` toma screenshots de página completa y recortes sin abrir el navegador
 
-### 🚀 Configuración
-
-Requiere Python 3.8 o superior.
+### Instalación
 
 ```bash
 pip install pandas numpy plotly playwright
 playwright install chromium
 ```
 
-### 🛠️ Cómo Ejecutar
+### Ejecución
 
 ```bash
-# Paso 1 — Generar el dataset
-python generar_datos.py
+python generar_datos.py       # genera ventas.csv
+python generar_dashboard.py   # genera dashboard.html
+# abrir dashboard.html en el navegador
 
-# Paso 2 — Compilar el dashboard
-python generar_dashboard.py
-
-# Paso 3 — Abrir dashboard.html en tu navegador
-
-# Paso 4 (opcional) — Capturar screenshots silenciosamente
-python capture_preview.py
+python capture_preview.py     # opcional: guarda preview.png + preview_chart1.png
 ```
 
-### 📂 Estructura del Proyecto
+### Estructura
 
-```text
+```
 .
-├── generar_datos.py       # Generador de datos sintéticos
-├── generar_dashboard.py   # Procesamiento de datos + constructor del dashboard
-├── capture_preview.py     # Captura de screenshots headless via Playwright
-├── ventas.csv             # Dataset generado
-├── dashboard.html         # Dashboard interactivo final
-├── preview.png            # Screenshot de página completa
-├── preview_chart1.png     # Recorte del primer gráfico
-└── README.md              # Este archivo
+├── generar_datos.py       # generador de datos sintéticos
+├── generar_dashboard.py   # procesamiento de datos + gráficos
+├── capture_preview.py     # screenshots headless (Playwright)
+├── ventas.csv             # dataset generado
+├── dashboard.html         # dashboard interactivo
+├── preview.png            # screenshot completo
+├── preview_chart1.png     # recorte del primer gráfico
+└── README.md
 ```
-
----
-
-*Built to turn raw data into actionable strategy. / Construido para transformar datos crudos en estrategias accionables.*
