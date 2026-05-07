@@ -1,3 +1,5 @@
+> **[Live Demo](https://mgnumx.github.io/retail-kpi-dashboard/dashboard.html)** - Open the interactive dashboard directly in your browser.
+
 # Retail KPI Dashboard
 
 > Data & Insights by Emilio Morillo
@@ -9,7 +11,7 @@
 ![Dashboard Preview](preview.png)
 
 <details>
-<summary>First chart — close-up</summary>
+<summary>First chart - close-up</summary>
 
 ![Chart Preview](preview_chart1.png)
 
@@ -19,106 +21,42 @@
 
 ## 🇺🇸 English
 
-Python pipeline that generates a synthetic retail dataset and renders an interactive HTML dashboard with KPIs and charts. No server needed — open `dashboard.html` directly in any browser.
+Python pipeline that generates a synthetic retail dataset and renders an interactive HTML dashboard with KPIs and charts. No server needed - open `dashboard.html` directly in any browser.
 
 ### Key Insights
+- **Sales Trends**: Identification of peak sales periods and seasonal fluctuations.
+- **Product Performance**: Top-performing categories and products by revenue.
+- **Customer Segmentation**: Analysis of customer behavior and demographics (synthetic).
 
-Three questions this dashboard answers out of the box:
+### Tech Stack
+- **Python**: Data generation and processing.
+- **Pandas**: Data manipulation.
+- **Plotly**: Interactive visualizations.
 
-1. **Which product categories drive the most revenue?** The bar chart ranks total sales per category, so you can immediately spot where to push harder.
-
-2. **Where are profits actually coming from?** The donut chart splits net profit by region. Useful for catching underperforming territories before they become a problem.
-
-3. **Is the business growing or just busy?** The monthly area chart shows whether revenue peaks are seasonal trends or real growth.
-
-### Features
-
-- Generates 5,000 synthetic sales records with realistic pricing, discounts, and margins
-- Computes Total Sales, Net Profit, Average Margin, and Order Count
-- Exports a self-contained `dashboard.html` — no backend, no dependencies at runtime
-- `capture_preview.py` takes full-page and cropped screenshots headlessly via Playwright
-
-### Setup
-
-```bash
-pip install pandas numpy plotly playwright
-playwright install chromium
-```
-
-### Run
-
-```bash
-python generar_datos.py       # generates ventas.csv
-python generar_dashboard.py   # generates dashboard.html
-# open dashboard.html in your browser
-
-python capture_preview.py     # optional: saves preview.png + preview_chart1.png
-```
-
-### Structure
-
-```
-.
-├── generar_datos.py       # synthetic data generator
-├── generar_dashboard.py   # data processing + chart builder
-├── capture_preview.py     # headless screenshots (Playwright)
-├── ventas.csv             # generated dataset
-├── dashboard.html         # interactive output
-├── preview.png            # full-page screenshot
-├── preview_chart1.png     # first chart crop
-└── README.md
-```
+### How to use
+1. Clone the repository.
+2. Run `generar_datos.py` to create the CSV.
+3. Run `generar_dashboard.py` to generate the HTML.
+4. Open `dashboard.html` in your browser.
 
 ---
 
 ## 🇪🇸 Español
 
-Pipeline en Python que genera un dataset sintético de retail y produce un dashboard HTML interactivo con KPIs y gráficos. No necesita servidor, basta con abrir `dashboard.html` en el navegador.
+Pipeline de Python que genera un conjunto de datos minoristas sintéticos y crea un dashboard HTML interactivo con KPIs y gráficos. Sin necesidad de servidor: abre `dashboard.html` directamente en cualquier navegador.
 
-### Insights Clave
+### Hallazgos Clave
+- **Tendencias de Ventas**: Identificación de periodos pico y fluctuaciones estacionales.
+- **Rendimiento de Productos**: Categorías y productos con mayores ingresos.
+- **Segmentación de Clientes**: Análisis sintético de comportamiento.
 
-Tres preguntas que este dashboard responde de inmediato:
+### Tecnologías
+- **Python**: Generación y procesamiento de datos.
+- **Pandas**: Manipulación de datos.
+- **Plotly**: Visualizaciones interactivas.
 
-1. **¿Qué categorías generan más ingresos?** El gráfico de barras muestra las ventas por categoría para saber dónde concentrar esfuerzos.
-
-2. **¿De dónde viene realmente el beneficio?** La dona divide el beneficio neto por región. Sirve para detectar territorios poco rentables antes de que sean un problema.
-
-3. **¿El negocio crece o solo está ocupado?** El gráfico de área mensual deja claro si los picos de ventas son estacionales o crecimiento real.
-
-### Características
-
-- Genera 5,000 registros sintéticos con precios, descuentos y márgenes realistas
-- Calcula Ventas Totales, Beneficio Neto, Margen Promedio y Cantidad de Órdenes
-- Exporta un `dashboard.html` autocontenido sin dependencias en tiempo de ejecución
-- `capture_preview.py` toma screenshots de página completa y recortes sin abrir el navegador
-
-### Instalación
-
-```bash
-pip install pandas numpy plotly playwright
-playwright install chromium
-```
-
-### Ejecución
-
-```bash
-python generar_datos.py       # genera ventas.csv
-python generar_dashboard.py   # genera dashboard.html
-# abrir dashboard.html en el navegador
-
-python capture_preview.py     # opcional: guarda preview.png + preview_chart1.png
-```
-
-### Estructura
-
-```
-.
-├── generar_datos.py       # generador de datos sintéticos
-├── generar_dashboard.py   # procesamiento de datos + gráficos
-├── capture_preview.py     # screenshots headless (Playwright)
-├── ventas.csv             # dataset generado
-├── dashboard.html         # dashboard interactivo
-├── preview.png            # screenshot completo
-├── preview_chart1.png     # recorte del primer gráfico
-└── README.md
-```
+### Cómo usar
+1. Clona el repositorio.
+2. Ejecuta `generar_datos.py` para crear el CSV.
+3. Ejecuta `generar_dashboard.py` para generar el HTML.
+4. Abre `dashboard.html` en tu navegador.
