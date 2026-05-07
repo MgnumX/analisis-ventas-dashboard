@@ -1,22 +1,17 @@
-name: Deploy to GitHub Pages
+name: Deploy Dashboard to GitHub Pages
 
 on:
-  # Se ejecuta automáticamente cuando hacemos push a la rama master
   push:
-    branches: ["master"]
-  # Permite ejecutarlo manualmente desde la pestaña Actions
-  workflow_dispatch:
+    branches: [ master ]
 
-# Permisos necesarios para que GitHub Actions pueda publicar en Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Previene ejecuciones simultáneas
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -25,21 +20,25 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Prepare index file
-        run: cp dashboard.html index.html
-        
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Generate Dashboard
+        run: |
+          python generar_dashboard.py
+          mkdir -p docs
+          cp dashboard.html docs/index.html
       - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
+        uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Sube todos los archivos del repositorio
-          path: '.'
-          
-      - name: Deploy to GitHub Pages
+          path: './docs'
+      - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4
